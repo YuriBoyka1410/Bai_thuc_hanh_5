@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài 5</title>
+  </head>
+  <body>
+    <h2>Kết quả hiển thị Dashboard</h2>
+    <pre id="output"></pre>
+
+    <script>
+      function get_user_dashboard(user) {
+        const display_name = user?.profile?.name || "Guest";
+        const avatar_img = user?.profile?.avatar || "default-avatar.png";
+        const admin_panel = user.is_logged_in
+          ? user.role == "ADMIN"
+            ? "---OPEN ADMIN PANEL---"
+            : "No Access"
+          : "Please Login";
+        const status_color = user.status === "active" ? "green" : "gray";
+        return ` Welcome, ${display_name}
+                Avatar: ${avatar_img}
+                Status Color: ${status_color}
+                Action: ${admin_panel}
+                ---------------------------------------------`;
+      }
+      // Các bộ dữ liệu kiểm thử
+      const users = [
+        {
+          is_logged_in: true,
+          role: "ADMIN",
+          status: "active",
+          profile: { name: "Dương", avatar: "my-pic.jpg" },
+        },
+        { is_logged_in: true, role: "USER", status: "inactive" },
+        {
+          is_logged_in: false,
+          role: "USER",
+          profile: { name: "", avatar: null },
+        },
+        { profile: null },
+        { profile: { name: undefined, avatar: null }, status: NaN },
+      ];
+      //In kết quả ra màn hình
+      const output = document.getElementById("output");
+      users.forEach((u, i) => {
+        output.textContent +=
+          "Trường hợp " + (i + 1) + ":\n" + get_user_dashboard(u) + "\n";
+      });
+    </script>
+  </body>
+</html>
